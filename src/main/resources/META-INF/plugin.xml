@@ -1,0 +1,36 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.mygittool.gitcheck</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Gitcheck</name>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+    This is used for reminder teammate to pull request from master branch
+  ]]></description>
+    <vendor></vendor>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>Git4Idea</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <notificationGroup
+                id="gitcheck"
+                displayType="BALLOON"
+        />
+    </extensions>
+    <actions>
+        <action id="gitcheck" class="com.mygittool.gitcheck.Gitcheck" text="gitcheck" description="gitcheck">
+            <add-to-group group-id="MainToolBar" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift meta G" second-keystroke="shift meta B"/>
+        </action>
+    </actions>
+</idea-plugin>
