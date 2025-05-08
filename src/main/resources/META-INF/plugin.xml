@@ -12,7 +12,7 @@
     <description><![CDATA[
     This is used for reminder teammate to pull request from master branch
   ]]></description>
-    <vendor></vendor>
+    <vendor>Lei wang</vendor>
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
@@ -26,11 +26,6 @@
                 id="gitcheck"
                 displayType="BALLOON"
         />
+        <postStartupActivity implementation="com.mygittool.gitcheck.Gitcheck" />
     </extensions>
-    <actions>
-        <action id="gitcheck" class="com.mygittool.gitcheck.Gitcheck" text="gitcheck" description="gitcheck">
-            <add-to-group group-id="MainToolBar" anchor="first"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="shift meta G" second-keystroke="shift meta B"/>
-        </action>
-    </actions>
 </idea-plugin>

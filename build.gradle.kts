@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.mygittool"
-version = "1.0-SNAPSHOT"
+version = "1.3-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -30,6 +30,7 @@ intellijPlatform {
     pluginConfiguration {
         ideaVersion {
             sinceBuild = "242"
+            untilBuild = "251.*"
         }
 
         changeNotes = """

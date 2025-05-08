@@ -3,12 +3,9 @@ package com.mygittool.gitcheck;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
-import com.intellij.openapi.actionSystem.ActionUpdateThread;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.startup.ProjectActivity;
 import com.intellij.util.concurrency.AppExecutorUtil;
 import com.intellij.vcs.log.Hash;
 import git4idea.commands.Git;
@@ -16,27 +13,21 @@ import git4idea.commands.GitCommand;
 import git4idea.commands.GitLineHandler;
 import git4idea.repo.GitRepository;
 import git4idea.repo.GitRepositoryManager;
+import kotlin.Unit;
+import kotlin.coroutines.Continuation;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class Gitcheck extends AnAction {
-    private static final Logger LOG = Logger.getInstance(Gitcheck.class);
-    private ScheduledFuture<?> scheduledTask;
+import static com.intellij.json.editor.smartEnter.JsonSmartEnterProcessor.LOG;
+
+public class Gitcheck implements ProjectActivity {
 
     @Override
-    public void actionPerformed(AnActionEvent e) {
-
-        if (scheduledTask != null && !scheduledTask.isCancelled()) {
-            scheduledTask.cancel(true);
-            return;
-        }
-
-        Project project = e.getProject();
-        if (project == null || project.isDisposed()) return;
-
+    public @Nullable Object execute(@NotNull Project project, @NotNull Continuation<? super Unit> continuation) {
+        if (project == null || project.isDisposed()) return null;
         Runnable task = () -> {
             GitRepositoryManager repositoryManager = GitRepositoryManager.getInstance(project);
             if (repositoryManager == null) return;
@@ -71,12 +62,8 @@ public class Gitcheck extends AnAction {
             }
         };
 
-        scheduledTask = AppExecutorUtil.getAppScheduledExecutorService()
+        AppExecutorUtil.getAppScheduledExecutorService()
                 .scheduleWithFixedDelay(task, 60, 60 * 5, TimeUnit.SECONDS);
-    }
-
-    @Override
-    public @NotNull ActionUpdateThread getActionUpdateThread() {
-        return ActionUpdateThread.EDT;
+        return null;
     }
 }
