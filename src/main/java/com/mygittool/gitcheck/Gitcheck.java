@@ -21,8 +21,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static com.intellij.json.editor.smartEnter.JsonSmartEnterProcessor.LOG;
-
 public class Gitcheck implements ProjectActivity {
 
     @Override
@@ -47,7 +45,6 @@ public class Gitcheck implements ProjectActivity {
                 });
 
                 Hash masterHash = repo.getBranches().getHash(repo.getBranches().findBranchByName("origin/master"));
-                LOG.info("current: "+currentHash+", master:" +masterHash);
                 if (!(masterHash.asString().equals(currentHash))){
                     ApplicationManager.getApplication().invokeLater(() -> {
                         Notification notification = new Notification(
